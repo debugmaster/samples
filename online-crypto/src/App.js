@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Col, Input, Row } from 'react-materialize';
 import forge from 'node-forge';
 
-import { EmptyCol, InputBox, OutputBox } from './components';
+import { EmptyCol, InputBox } from './components';
 
 import './App.css';
 
@@ -17,6 +17,7 @@ class App extends Component {
     };
 
     this.changeInput = this.changeInput.bind(this);
+    this.changeOutput = this.changeOutput.bind(this);
     this.changePassword = this.changePassword.bind(this);
   }
 
@@ -28,12 +29,39 @@ class App extends Component {
     }
   }
 
+  changeOutput(e) {
+    this.setState({output: e.target.value});
+
+    if(this.state.password && e.target.value) {
+      this.updateInput(e.target.value, this.state.password);
+    }
+  }
+
   changePassword(e) {
     this.setState({password: e.target.value});
 
     if(this.state.input && e.target.value) {
       this.updateOutput(this.state.input, e.target.value);
+    } else if(this.state.output && e.target.value) {
+      this.updateInput(this.state.output, e.target.value);
     }
+  }
+
+  updateInput(output, password) {
+    const temp = password.repeat(3);
+
+    const key = forge.md.md5.create()
+      .update(temp.slice(0,temp.length/2)).digest().toHex();
+
+    const iv = forge.md.md5.create()
+      .update(temp.slice(temp.length/2)).digest().toHex();
+
+    var cipher = forge.cipher.createDecipher('AES-CBC', key);
+    cipher.start({iv: iv});
+    cipher.update(forge.util.createBuffer(forge.util.decode64(output)));
+    cipher.finish();
+
+    this.setState({input: forge.util.decodeUtf8(cipher.output.getBytes())});
   }
 
   updateOutput(input, password) {
@@ -69,7 +97,7 @@ class App extends Component {
           </Col>
           <EmptyCol />
           <Col s={4} className="output-box">
-            <OutputBox value={this.state.output} />
+            <InputBox value={this.state.output} onChange={this.changeOutput} />
           </Col>
         </Row>
       </div>

@@ -47,14 +47,24 @@ class App extends Component {
     }
   }
 
-  updateInput(output, password) {
-    const temp = password.repeat(3);
+  init(password) {
+    if (!password) {
+      throw new Error('Password is not defined');
+    }
 
+    const temp = password.repeat(3);
     const key = forge.md.md5.create()
       .update(temp.slice(0,temp.length/2)).digest().toHex();
-
     const iv = forge.md.md5.create()
       .update(temp.slice(temp.length/2)).digest().toHex();
+
+    return {
+      key, iv
+    };
+  }
+
+  updateInput(output, password) {
+    const { key, iv } = this.init(password);
 
     var cipher = forge.cipher.createDecipher('AES-CBC', key);
     cipher.start({iv: iv});
@@ -65,13 +75,7 @@ class App extends Component {
   }
 
   updateOutput(input, password) {
-    const temp = password.repeat(3);
-
-    const key = forge.md.md5.create()
-      .update(temp.slice(0,temp.length/2)).digest().toHex();
-
-    const iv = forge.md.md5.create()
-      .update(temp.slice(temp.length/2)).digest().toHex();
+    const { key, iv } = this.init(password);
 
     var cipher = forge.cipher.createCipher('AES-CBC', key);
     cipher.start({iv: iv});

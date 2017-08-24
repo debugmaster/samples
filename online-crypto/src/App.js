@@ -24,7 +24,7 @@ class App extends Component {
   changeInput(e) {
     this.setState({input: e.target.value});
 
-    if(this.state.password && e.target.value) {
+    if(this.state.password) {
       this.updateOutput(e.target.value, this.state.password);
     }
   }
@@ -32,7 +32,7 @@ class App extends Component {
   changeOutput(e) {
     this.setState({output: e.target.value});
 
-    if(this.state.password && e.target.value) {
+    if(this.state.password) {
       this.updateInput(e.target.value, this.state.password);
     }
   }
@@ -64,9 +64,13 @@ class App extends Component {
   }
 
   updateInput(output, password) {
-    const { key, iv } = this.init(password);
+    if(!output) {
+      this.setState({input:''});
+      return;
+    }
 
-    var cipher = forge.cipher.createDecipher('AES-CBC', key);
+    const { key, iv } = this.init(password);
+    const cipher = forge.cipher.createDecipher('AES-CBC', key);
     cipher.start({iv: iv});
     cipher.update(forge.util.createBuffer(forge.util.decode64(output)));
     cipher.finish();
@@ -79,9 +83,13 @@ class App extends Component {
   }
 
   updateOutput(input, password) {
-    const { key, iv } = this.init(password);
+    if(!input) {
+      this.setState({output:''});
+      return;
+    }
 
-    var cipher = forge.cipher.createCipher('AES-CBC', key);
+    const { key, iv } = this.init(password);
+    const cipher = forge.cipher.createCipher('AES-CBC', key);
     cipher.start({iv: iv});
     cipher.update(forge.util.createBuffer(forge.util.encodeUtf8(input)));
     cipher.finish();

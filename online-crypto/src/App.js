@@ -71,7 +71,11 @@ class App extends Component {
     cipher.update(forge.util.createBuffer(forge.util.decode64(output)));
     cipher.finish();
 
-    this.setState({input: forge.util.decodeUtf8(cipher.output.getBytes())});
+    try{
+      this.setState({input: forge.util.decodeUtf8(cipher.output.getBytes())});
+    } catch (_) {
+      this.setState({input: ''});
+    }
   }
 
   updateOutput(input, password) {
@@ -82,7 +86,11 @@ class App extends Component {
     cipher.update(forge.util.createBuffer(forge.util.encodeUtf8(input)));
     cipher.finish();
 
-    this.setState({output: forge.util.encode64(cipher.output.getBytes())});
+    try {
+      this.setState({output: forge.util.encode64(cipher.output.getBytes())});
+    } catch (_) {
+      this.setState({output: ''});
+    }
   }
 
   render() {

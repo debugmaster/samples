@@ -104,9 +104,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header">
+        <Row className="App-header">
           <h2>Easy AES Calculator</h2>
-        </div>
+        </Row>
         <Row>
           <Col s={4} className="input-box">
             <InputBox value={this.state.input} onChange={this.changeInput} />

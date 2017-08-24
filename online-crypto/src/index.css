@@ -10,3 +10,13 @@ body {
   padding: 10px;
   resize: vertical;
 }
+
+.valid {
+  border-bottom: 1px solid #0C0;
+  box-shadow: 0 1px 0 0 #0C0;
+}
+
+.invalid {
+  border-bottom: 1px solid #D00;
+  box-shadow: 0 1px 0 0 #D00;
+}

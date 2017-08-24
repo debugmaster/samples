@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "classnames": "^2.2.5",
     "node-forge": "^0.7.1",
     "react": "^15.6.1",
     "react-autosize-textarea": "^0.4.8",

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TextareaAutosize from 'react-autosize-textarea';
+import classnames from 'classnames';
 
 class Input extends Component {
   constructor(props) {
@@ -8,11 +9,16 @@ class Input extends Component {
   }
 
   render() {
+    const componentClass = classnames({
+      valid: !!this.props.value,
+      invalid: !this.props.value
+    }, 'materialize-textarea');
+
     return (
-      <TextareaAutosize 
-        className="materialize-textarea" 
+      <TextareaAutosize
+        className={componentClass}
         onChange={this.onChange}
-        value={this.props.value} /> 
+        value={this.props.value} />
     );
   }
 }

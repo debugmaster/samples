@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Col, Input, Row } from 'react-materialize';
 import forge from 'node-forge';
 
-import { EmptyCol, InputBox } from './components';
+import { EmptyCol, TextBox } from './components';
 
 import './App.css';
 
@@ -109,7 +109,7 @@ class App extends Component {
         </Row>
         <Row>
           <Col s={4} className="input-box">
-            <InputBox value={this.state.input} onChange={this.changeInput} />
+            <TextBox value={this.state.input} onChange={this.changeInput} />
           </Col>
           <EmptyCol />
           <Col s={2}>
@@ -117,7 +117,7 @@ class App extends Component {
           </Col>
           <EmptyCol />
           <Col s={4} className="output-box">
-            <InputBox value={this.state.output} onChange={this.changeOutput} />
+            <TextBox value={this.state.output} onChange={this.changeOutput} />
           </Col>
         </Row>
       </div>

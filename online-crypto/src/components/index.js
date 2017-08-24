@@ -1,7 +1,7 @@
 import EmptyCol from './EmptyCol';
-import InputBox from './InputBox';
+import TextBox from './TextBox';
 
 export {
     EmptyCol,
-    InputBox
+    TextBox
 }
